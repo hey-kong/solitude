@@ -12,12 +12,7 @@ func findDuplicate(nums []int) int {
 		}
 	}
 	fast = nums[0]
-	for {
-		// 先判断，再移动指针
-		// 因为重复数字可能是nums[0]
-		if slow == fast {
-			break
-		}
+	for fast != slow {
 		slow = nums[slow]
 		fast = nums[fast]
 	}
