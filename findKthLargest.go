@@ -1,6 +1,8 @@
 package main
 
-import "math/rand"
+import (
+	"math/rand"
+)
 
 // Leetcode 215. (medium)
 func findKthLargest(nums []int, k int) int {
@@ -32,4 +34,38 @@ func findKthLargest(nums []int, k int) int {
 
 	// 在左侧继续查找
 	return findKthLargest(nums[1:mark], k - rightCount - 1)
+}
+
+func findKthLargestInt(nums []int, k int) int {
+	left, right := nums[0], nums[0]
+	for _, num := range nums {
+		if num < left {
+			left = num
+		}
+		if num > right {
+			right = num
+		}
+	}
+
+	for left <= right {
+		mid := (left + right) / 2
+		cnt1, cnt2 := 0, 0
+		for _, num := range nums {
+			if num >= mid {
+				cnt1++
+			}
+			if num > mid {
+				cnt2++
+			}
+		}
+
+		if cnt1 >= k && cnt2 < k {
+			return mid
+		} else if cnt2 >= k {
+			left = mid + 1
+		} else {
+			right = mid - 1
+		}
+	}
+	return -1
 }
