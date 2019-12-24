@@ -37,3 +37,22 @@ func reverseWords(s string) string {
 	}
 	return string(b[:i])
 }
+
+func reverseWords2(s []byte)  {
+	for i := 0 ; i < len(s) / 2; i++ {
+		s[i], s[len(s)-1-i] = s[len(s)-1-i], s[i]
+	}
+
+	start := 0
+	for start < len(s){
+		end := start
+		for end < len(s) && s[end] != 32 {
+			end++
+		}
+
+		for i := start; i < (start + end) / 2; i++ {
+			s[i], s[start+end-1-i] = s[start+end-1-i], s[i]
+		}
+		start = end + 1
+	}
+}
