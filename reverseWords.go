@@ -38,6 +38,7 @@ func reverseWords(s string) string {
 	return string(b[:i])
 }
 
+// Leetcode 186. (medium)
 func reverseWords2(s []byte)  {
 	for i := 0 ; i < len(s) / 2; i++ {
 		s[i], s[len(s)-1-i] = s[len(s)-1-i], s[i]
@@ -55,4 +56,22 @@ func reverseWords2(s []byte)  {
 		}
 		start = end + 1
 	}
+}
+
+// Leetcode 557. (easy)
+func reverseWords3(s string) string {
+	b := []byte(s)
+	start := 0
+	for start < len(b){
+		end := start
+		for end < len(b) && b[end] != 32 {
+			end++
+		}
+
+		for i := start; i < (start + end) / 2; i++ {
+			b[i], b[start+end-1-i] = b[start+end-1-i], b[i]
+		}
+		start = end + 1
+	}
+	return string(b)
 }
