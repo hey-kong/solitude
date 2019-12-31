@@ -69,3 +69,42 @@ func findKthLargestInt(nums []int, k int) int {
 	}
 	return -1
 }
+
+func findSmallestPositiveInt(nums []int) int {
+	left, right := 0, 0
+	pos := 0
+	for _, num := range nums {
+		if num > 0 {
+			pos++
+		}
+		if num > right {
+			right = num
+		}
+	}
+
+	if pos == 0 {
+		return 0
+	}
+
+	for left <= right {
+		mid := (left + right) / 2
+		cnt1, cnt2 := 0, 0
+		for _, num := range nums {
+			if num >= mid {
+				cnt1++
+			}
+			if num > mid {
+				cnt2++
+			}
+		}
+
+		if cnt1 == pos && cnt1 > cnt2 {
+			return mid
+		} else if cnt1 == pos && cnt1 == cnt2 {
+			left = mid + 1
+		} else {
+			right = mid - 1
+		}
+	}
+	return 0
+}
