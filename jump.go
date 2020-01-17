@@ -19,6 +19,7 @@ func jump(nums []int) int {
 			}
 		}
 	}
+	return memo[0]
 }
 
 func jump2(nums []int) int {
