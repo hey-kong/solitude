@@ -11,7 +11,7 @@ func maxProfit(prices []int) int {
 		maxprofit = max(maxprofit, prices[i]-minprice)
 		minprice = min(minprice, prices[i])
 	}
-	return res
+	return maxprofit
 }
 
 // Leetcode 122. (easy)
