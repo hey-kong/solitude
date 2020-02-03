@@ -1,5 +1,7 @@
 package main
 
+import "sort"
+
 // Leetcode 88. (easy)
 func merge(nums1 []int, m int, nums2 []int, n int) {
 	i, j := m-1, n-1
@@ -20,4 +22,25 @@ func merge(nums1 []int, m int, nums2 []int, n int) {
 		j--
 		mark--
 	}
+}
+
+// Leetcode 56. (medium)
+func merge(intervals [][]int) [][]int {
+	if len(intervals) <= 1 {
+		return intervals
+	}
+
+	sort.Sort(Intervals(intervals))
+	j := 0
+	for i := 0; i < len(intervals)-1; i++ {
+		if intervals[i][1] >= intervals[i+1][0] {
+			intervals[i+1][0] = intervals[i][0]
+			intervals[i+1][1] = max(intervals[i][1], intervals[i+1][1])
+		}
+		if intervals[j][0] != intervals[i+1][0] {
+			j++
+		}
+		intervals[j] = intervals[i+1]
+	}
+	return intervals[:j+1]
 }
