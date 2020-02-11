@@ -21,3 +21,32 @@ func maxProduct(nums []int) int {
 	}
 	return res
 }
+
+// Leetcode 1339. (medium)
+func maxProduct2(root *TreeNode) int {
+	sum := calPathSum(root, 0)
+	_, res := recursiveMaxProduct2(root, sum, 0)
+	return res % (1e9 + 7)
+}
+
+func recursiveMaxProduct2(root *TreeNode, sum, res int) (int, int) {
+	if root == nil {
+		return 0, res
+	}
+	leftSum, leftMax := recursiveMaxProduct2(root.Left, sum, res)
+	rightSum, rightMax := recursiveMaxProduct2(root.Right, sum, res)
+	p1 := leftSum * (sum - leftSum)
+	p2 := rightSum * (sum - rightSum)
+	res = max(max(leftMax, rightMax), max(p1, p2))
+	return leftSum + rightSum + root.Val, res
+}
+
+func calPathSum(root *TreeNode, sum int) int {
+	if root == nil {
+		return sum
+	}
+	sum += root.Val
+	sum = calPathSum(root.Left, sum)
+	sum = calPathSum(root.Right, sum)
+	return sum
+}
