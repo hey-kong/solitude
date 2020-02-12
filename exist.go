@@ -22,10 +22,10 @@ func exist(board [][]byte, word string) bool {
 
 func dfsExist(board [][]byte, r, c int, word string, i int) bool {
 	mr, mc := len(board), len(board[0])
-	if r == -1 || r == mr || c == -1 || c == mc || i == len(word) || board[r][c] != word[i] {
+	if r == -1 || r == mr || c == -1 || c == mc || board[r][c] != word[i] {
 		return false
 	}
-	if i == len(word)-1 && board[r][c] == word[i] {
+	if i == len(word)-1 {
 		return true
 	}
 
