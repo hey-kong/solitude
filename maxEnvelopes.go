@@ -27,13 +27,45 @@ func maxEnvelopes(envelopes [][]int) int {
 	return res
 }
 
+func maxEnvelopes2(envelopes [][]int) int {
+	if len(envelopes) == 0 {
+		return 0
+	}
+
+	sort.Sort(Envelopes(envelopes))
+	dp := make([]int, 1)
+	dp[0] = envelopes[0][1]
+	i := 0
+	for _, envelope := range envelopes {
+		if dp[i] < envelope[1] {
+			dp = append(dp, envelope[1])
+			i++
+			continue
+		}
+		left, right := 0, i
+		for left <= right {
+			mid := left + (right-left)/2
+			if dp[mid] == envelope[1] {
+				left = mid
+				break
+			} else if dp[mid] < envelope[1] {
+				left = mid + 1
+			} else {
+				right = mid - 1
+			}
+		}
+		dp[left] = envelope[1]
+	}
+	return len(dp)
+}
+
 func (envelopes Envelopes) Len() int {
 	return len(envelopes)
 }
 
 func (envelopes Envelopes) Less(i, j int) bool {
 	if envelopes[i][0] == envelopes[j][0] {
-		return envelopes[i][1] < envelopes[j][1]
+		return envelopes[i][1] > envelopes[j][1]
 	}
 	return envelopes[i][0] < envelopes[j][0]
 }
