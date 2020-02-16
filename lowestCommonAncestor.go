@@ -15,3 +15,14 @@ func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
 	}
 	return root
 }
+
+// Leetcode 235. (easy)
+func lowestCommonAncestor2(root, p, q *TreeNode) *TreeNode {
+	if root.Val > p.Val && root.Val > q.Val {
+		return lowestCommonAncestor2(root.Left, p, q)
+	}
+	if root.Val < p.Val && root.Val < q.Val {
+		return lowestCommonAncestor2(root.Right, p, q)
+	}
+	return root
+}
