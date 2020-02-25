@@ -20,3 +20,44 @@ func nthUglyNumber(n int) int {
 	}
 	return nums[n-1]
 }
+
+// Leetcode 1201. (medium)
+func nthUglyNumber2(n int, a int, b int, c int) int {
+	ab, ac, bc := lcm(a, b), lcm(a, c), lcm(b, c)
+	abc := lcm(ab, c)
+	left, right := 0, 1<<31-1
+	for left <= right {
+		mid := left + (right-left)/2
+		cnt := mid/a + mid/b + mid/c - mid/ab - mid/ac - mid/bc + mid/abc
+		if cnt == n {
+			right = mid - 1
+		} else if cnt < n {
+			left = mid + 1
+		} else {
+			right = mid - 1
+		}
+	}
+	return left
+}
+
+func gcd(a, b int) int {
+	if a == 0 || b == 0 {
+		return 0
+	}
+	if a < b {
+		a, b = b, a
+	}
+	for b != 0 {
+		tmp := b
+		b = a % b
+		a = tmp
+	}
+	return a
+}
+
+func lcm(a, b int) int {
+	if a == 0 || b == 0 {
+		return 0
+	}
+	return a * b / gcd(a, b)
+}
