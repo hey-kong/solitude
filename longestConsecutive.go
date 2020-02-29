@@ -39,3 +39,25 @@ func unionOf128(x, y int, root, size map[int]int) (int, map[int]int, map[int]int
 	size[y] += size[x]
 	return size[y], root, size
 }
+
+func longestConsecutive2(nums []int) int {
+	m := make(map[int]int, len(nums))
+	res := 0
+	for _, num := range nums {
+		if _, ok := m[num]; ok {
+			continue
+		}
+
+		left, right := 0, 0
+		if _, ok := m[num-1]; ok {
+			left = m[num-1]
+		}
+		if _, ok := m[num+1]; ok {
+			right = m[num+1]
+		}
+		cur := left + 1 + right
+		res = max(res, cur)
+		m[num-left], m[num], m[num+right] = cur, cur, cur
+	}
+	return res
+}
