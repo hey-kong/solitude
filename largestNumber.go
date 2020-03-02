@@ -21,3 +21,19 @@ func largestNumber(nums []int) string {
 	}
 	return res
 }
+
+/*
+func (arr IntStr) Len() int {
+	return len(arr)
+}
+
+func (arr IntStr) Less(i, j int) bool {
+	s1 := strconv.Itoa(arr[i]) + strconv.Itoa(arr[j])
+	s2 := strconv.Itoa(arr[j]) + strconv.Itoa(arr[i])
+	return s1 > s2
+}
+
+func (arr IntStr) Swap(i, j int) {
+	arr[i], arr[j] = arr[j], arr[i]
+}
+*/
