@@ -2,47 +2,47 @@ package main
 
 // Leetcode 76. (hard)
 func minWindow(s string, t string) string {
-	m := make(map[byte]int)
+	mapT := make(map[byte]int)
 	for i := range t {
-		m[t[i]]++
+		mapT[t[i]]++
 	}
 	lt := len(t)
 	start, end := 0, len(s)
 	i, j := 0, 0
 	for {
-		for i < len(s) {
-			if _, ok := m[s[i]]; ok {
-				m[s[i]]--
-				if m[s[i]] >= 0 {
+		for j < len(s) {
+			if _, ok := mapT[s[j]]; ok {
+				mapT[s[j]]--
+				if mapT[s[j]] >= 0 {
 					lt--
+					if lt == 0 {
+						break
+					}
 				}
-				if lt == 0 {
+			}
+			j++
+		}
+		if j == len(s) {
+			break
+		}
+		for i <= j {
+			if _, ok := mapT[s[i]]; ok {
+				mapT[s[i]]++
+				if mapT[s[i]] > 0 {
+					lt++
+					if j-i < end-start {
+						start, end = i, j
+					}
 					break
 				}
 			}
 			i++
 		}
-        if i == len(s) {
-			break
-		}
-		for j < len(s) {
-			if _, ok := m[s[j]]; ok {
-				m[s[j]]++
-				if m[s[j]] > 0 {
-					lt++
-					break
-				}
-			}
-			j++
-		}
-		if end - start >= i - j {
-			start, end = j, i
-		}
 		i++
 		j++
 	}
-	if end - start == len(s) {
+	if end-start == len(s) {
 		return ""
 	}
-	return s[start:end+1]
+	return s[start : end+1]
 }
