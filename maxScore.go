@@ -24,3 +24,19 @@ func maxScore(s string) int {
 	}
 	return res
 }
+
+// Leetcode 5393. (medium)
+func maxScore2(cardPoints []int, k int) int {
+	res := 0
+	for i := 0; i < k; i++ {
+		res += cardPoints[i]
+	}
+
+	tmp := res
+	for i := 0; i < k; i++ {
+		tmp -= cardPoints[k-1-i]
+		tmp += cardPoints[len(cardPoints)-1-i]
+		res = max(res, tmp)
+	}
+	return res
+}
