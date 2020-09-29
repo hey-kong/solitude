@@ -15,3 +15,20 @@ func rob(nums []int) int {
 	}
 	return cur
 }
+
+// Leetcode 337. (medium)
+func rob3(root *TreeNode) int {
+	res := recursiveRob3(root)
+	return max(res[0], res[1])
+}
+
+func recursiveRob3(root *TreeNode) []int {
+	if root == nil {
+		return []int{0, 0}
+	}
+	left := recursiveRob3(root.Left)
+	right := recursiveRob3(root.Right)
+	chosen := root.Val + left[1] + right[1]
+	notChosen := max(left[0], left[1]) + max(right[0], right[1])
+	return []int{chosen, notChosen}
+}
