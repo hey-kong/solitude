@@ -16,20 +16,11 @@ func maxProfit(prices []int) int {
 
 // Leetcode 122. (easy)
 func maxProfit2(prices []int) int {
-	buy, sell := 0, 0
-	maxprofit := 0 
+	res := 0
 	for i := 1; i < len(prices); i++ {
-		if prices[i] <= prices[i-1] {
-			if buy < sell {
-				maxprofit += prices[sell] - prices[buy]
-			}
-            buy = i
-		} else {
-			sell = i
+		if prices[i-1] < prices[i] {
+			res += prices[i] - prices[i-1]
 		}
 	}
-	if buy < sell {
-		maxprofit += prices[sell] - prices[buy]
-	}
-    return maxprofit
+	return res
 }
