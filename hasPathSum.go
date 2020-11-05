@@ -1,6 +1,6 @@
 package main
 
-// Leetcode 112. (medium)
+// Leetcode 112. (easy)
 func hasPathSum(root *TreeNode, sum int) bool {
 	if root == nil {
 		return false
