@@ -16,7 +16,7 @@ func countRangeSum(nums []int, lower int, upper int) int {
 }
 
 func mergeSortOfCountRangeSum(preSum, aux []int, left, right int, lower int, upper int) int {
-	if left >= right {
+	if left == right {
 		if preSum[left] <= upper && preSum[left] >= lower {
 			return 1
 		}
@@ -38,29 +38,6 @@ func mergeSortOfCountRangeSum(preSum, aux []int, left, right int, lower int, upp
 		}
 		i++
 	}
-	mergeOfCountRangeSum(preSum, aux, left, mid, right, lower, upper)
+	mergeArray(preSum, aux, left, mid, right)
 	return ans1 + ans2 + ans3
-}
-
-func mergeOfCountRangeSum(preSum, aux []int, left, mid, right int, lower int, upper int) {
-	i, j := left, mid+1
-	for k := left; k <= right; k++ {
-		aux[k] = preSum[k]
-	}
-	for k := left; k <= right; k++ {
-		if i > mid {
-			preSum[k] = aux[j]
-			j++
-		} else if j > right {
-			preSum[k] = aux[i]
-			i++
-		} else if aux[j] <= aux[i] {
-			preSum[k] = aux[j]
-			j++
-		} else {
-			preSum[k] = aux[i]
-			i++
-		}
-	}
-	return
 }
