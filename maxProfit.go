@@ -43,3 +43,12 @@ func maxProfitWithCooldown(prices []int) int {
 	}
 	return max(dp[len(prices)-1][1], dp[len(prices)-1][2])
 }
+
+// Leetcode 714. (medium)
+func maxProfit3(prices []int, fee int) int {
+	hold, sell := -prices[0], 0
+	for i := 1; i < len(prices); i++ {
+		hold, sell = max(hold, sell-prices[i]), max(sell, hold+prices[i]-fee)
+	}
+	return max(hold, sell)
+}
