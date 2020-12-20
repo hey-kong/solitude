@@ -2,18 +2,14 @@ package main
 
 // Leetcode 1248. (medium)
 func numberOfSubarrays(nums []int, k int) int {
-	res := 0
-	memo := []int{-1}
-	i := 1
-	for j := 0; j <= len(nums); j++ {
-		if j == len(nums) || nums[j]%2 == 1 {
-			memo = append(memo, j)
-		}
-		if len(memo)-1-i == k {
-			left := memo[i] - memo[i-1]
-			right := j - memo[len(memo)-2]
-			res += left * right
-			i++
+	sum, res := 0, 0
+	prefixCnt := make([]int, len(nums)+1)
+	prefixCnt[0] = 1
+	for _, num := range nums {
+		sum += num & 1
+		prefixCnt[sum]++
+		if sum >= k {
+			res += prefixCnt[sum-k]
 		}
 	}
 	return res
