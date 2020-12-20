@@ -12,3 +12,10 @@ type TreeNode2 struct {
 	Right  *TreeNode2
 	Parent *TreeNode2
 }
+
+type TreeNode3 struct {
+	Val   int
+	Left  *TreeNode3
+	Right *TreeNode3
+	Next  *TreeNode3
+}
