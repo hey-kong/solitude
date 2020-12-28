@@ -52,3 +52,34 @@ func maxProfit3(prices []int, fee int) int {
 	}
 	return max(hold, sell)
 }
+
+// Leetcode 188. (hard)
+func maxProfit4(k int, prices []int) int {
+	if len(prices) == 0 || k == 0 {
+		return 0
+	}
+
+	k = min(k, len(prices)/2)
+	hold, sell := make([][]int, k+1), make([][]int, k+1)
+	for i := 0; i <= k; i++ {
+		hold[i] = make([]int, len(prices))
+		sell[i] = make([]int, len(prices))
+	}
+	hold[0][0] = -prices[0]
+	for i := 1; i <= k; i++ {
+		hold[i][0], sell[i][0] = -1000000, -1000000
+	}
+
+	for j := 1; j < len(prices); j++ {
+		hold[0][j], sell[0][j] = max(hold[0][j-1], -prices[j]), 0
+		for i := 1; i <= k; i++ {
+			hold[i][j] = max(hold[i][j-1], sell[i][j-1]-prices[j])
+			sell[i][j] = max(sell[i][j-1], hold[i-1][j-1]+prices[j])
+		}
+	}
+	res := sell[0][len(prices)-1]
+	for i := 1; i <= k; i++ {
+		res = max(res, sell[i][len(prices)-1])
+	}
+	return res
+}
