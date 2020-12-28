@@ -34,3 +34,22 @@ func dfsPartition(s string, i int, tmp []string, dp [][]bool, res [][]string) []
 	}
 	return res
 }
+
+// Leetcode 86. (medium)
+func partitionList(head *ListNode, x int) *ListNode {
+	dummySmall, dummyBig := &ListNode{}, &ListNode{}
+	sHead, bHead := dummySmall, dummyBig
+	for head != nil {
+		if head.Val < x {
+			dummySmall.Next = head
+			dummySmall = dummySmall.Next
+		} else {
+			dummyBig.Next = head
+			dummyBig = dummyBig.Next
+		}
+		head = head.Next
+	}
+	dummySmall.Next = bHead.Next
+	dummyBig.Next = nil
+	return sHead.Next
+}
