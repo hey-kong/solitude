@@ -2,62 +2,51 @@ package main
 
 // Leetcode 148. (medium)
 func sortList(head *ListNode) *ListNode {
-	preHead := new(ListNode)
-	preHead.Next = head
-	tmpNode := head
-	l := 0
-	for tmpNode != nil {
-		l++
-		tmpNode = tmpNode.Next
-	}
-	for size := 1; size < l; size <<= 1 {
-		pre := preHead
-		cur := preHead.Next
-		for cur != nil {
-			left := cur
-			right := sortListCut(left, size)
-			cur = sortListCut(right, size)
-
-			pre.Next = sortListMerge(left, right)
-			for pre.Next != nil {
-				pre = pre.Next
-			}
-		}
-	}
-	return preHead.Next
+	return mergeSortList(head, nil)
 }
 
-func sortListCut(head *ListNode, size int) *ListNode {
-	var pre *ListNode
-	cur := head
-	for size > 0 && cur != nil {
-		pre = cur
+func mergeSortList(head, tail *ListNode) *ListNode {
+	if head == nil {
+		return head
+	}
+	if head.Next == tail {
+		head.Next = nil
+		return head
+	}
+
+	slow, fast := head, head
+	for fast != tail {
+		slow = slow.Next
+		fast = fast.Next
+		if fast != tail {
+			fast = fast.Next
+		}
+	}
+	return mergeTwoLists(mergeSortList(head, slow), mergeSortList(slow, tail))
+}
+
+func quickSortList(head, tail *ListNode) *ListNode {
+	if head == tail || head.Next == tail {
+		return head
+	}
+
+	mid := partitionSortList(head, tail)
+	quickSortList(head, mid)
+	quickSortList(mid.Next, tail)
+	return head
+}
+
+func partitionSortList(head, tail *ListNode) *ListNode {
+	pivot := head.Val
+	pre, mark := head, head.Next
+	cur := head.Next
+	for cur != tail {
+		if cur.Val < pivot {
+			mark.Val, cur.Val = cur.Val, mark.Val
+			pre, mark = mark, mark.Next
+		}
 		cur = cur.Next
-		size--
 	}
-	if pre != nil {
-		pre.Next = nil
-	}
-	return cur
-}
-
-func sortListMerge(l1, l2 *ListNode) *ListNode {
-	preHead := new(ListNode)
-	p := preHead
-	for l1 != nil && l2 != nil {
-		if l1.Val < l2.Val {
-			p.Next = l1
-			l1 = l1.Next
-		} else {
-			p.Next = l2
-			l2 = l2.Next
-		}
-		p = p.Next
-	}
-	if l1 == nil {
-		p.Next = l2
-	} else if l2 == nil {
-		p.Next = l1
-	}
-	return preHead.Next
+	head.Val, pre.Val = pre.Val, head.Val
+	return pre
 }
