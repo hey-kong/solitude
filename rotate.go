@@ -15,29 +15,29 @@ func rotateImage(matrix [][]int) {
 	}
 }
 
-// Leetcode 189. (easy)
+// Leetcode 189. (medium)
 func rotate(nums []int, k int) {
-	if k >= len(nums) {
-		k %= len(nums)
+	n := len(nums)
+	if k >= n {
+		k %= n
 	}
 	if k == 0 {
 		return
 	}
 
-	i := 0
-	start := 0
-	tmp := nums[i]
+	i, val := 0, nums[0]
+	start := i
 	for _ = range nums {
 		i += k
-		if i >= len(nums) {
-			i -= len(nums)
+		if i >= n {
+			i -= n
 		}
-		tmp, nums[i] = nums[i], tmp
+		val, nums[i] = nums[i], val
 
 		if i == start {
 			i++
+			val = nums[i]
 			start = i
-			tmp = nums[i]
 		}
 	}
 }
