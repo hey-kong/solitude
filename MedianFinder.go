@@ -4,8 +4,8 @@ import "container/heap"
 
 // Leetcode 295. (hard)
 type MedianFinder struct {
-	h1 MaxHeap
-	h2 MinHeap
+	big MaxHeap
+	small MinHeap
 }
 
 /** initialize your data structure here. */
@@ -17,26 +17,26 @@ func Constructor() MedianFinder {
 }
 
 func (this *MedianFinder) AddNum(num int) {
-	if this.h1.Len() == 0 || this.h1[0] >= num {
-		heap.Push(&this.h1, num)
+	if this.big.Len() == 0 || this.big[0] >= num {
+		heap.Push(&this.big, num)
 	} else {
-		heap.Push(&this.h2, num)
+		heap.Push(&this.small, num)
 	}
 	// adjust
-	if this.h1.Len() > this.h2.Len()+1 {
-		x := heap.Pop(&this.h1)
-		heap.Push(&this.h2, x)
-	} else if this.h1.Len() < this.h2.Len() {
-		x := heap.Pop(&this.h2)
-		heap.Push(&this.h1, x)
+	if this.big.Len() > this.small.Len()+1 {
+		x := heap.Pop(&this.big)
+		heap.Push(&this.small, x)
+	} else if this.big.Len() < this.small.Len() {
+		x := heap.Pop(&this.small)
+		heap.Push(&this.big, x)
 	}
 }
 
 func (this *MedianFinder) FindMedian() float64 {
-	if this.h1.Len() != this.h2.Len() {
-		return float64(this.h1[0])
+	if this.big.Len() != this.small.Len() {
+		return float64(this.big[0])
 	}
-	return float64(this.h1[0]+this.h2[0]) / 2
+	return float64(this.big[0]+this.small[0]) / 2
 }
 
 type MaxHeap []int
