@@ -9,11 +9,11 @@ func solveNQueens(n int) [][]string {
 	for i := range cur {
 		cur[i] = empty
 	}
-	res := backtrack(0, n, cur, [][]string{})
+	res := dfsSolveNQueens(0, n, cur, [][]string{})
 	return res
 }
 
-func backtrack(i, n int, cur []string, res [][]string) [][]string {
+func dfsSolveNQueens(i, n int, cur []string, res [][]string) [][]string {
 	if i == n {
 		tmp := make([]string, n)
 		copy(tmp, cur)
@@ -24,7 +24,7 @@ func backtrack(i, n int, cur []string, res [][]string) [][]string {
 	for j := range cur[i] {
 		cur[i] = cur[i][:j] + "Q" + cur[i][j+1:]
 		if isValidOfSolveNQueens(n, i, j, cur) {
-			res = backtrack(i+1, n, cur, res)
+			res = dfsSolveNQueens(i+1, n, cur, res)
 		}
 		cur[i] = cur[i][:j] + "." + cur[i][j+1:]
 	}
