@@ -61,3 +61,26 @@ func longestConsecutive2(nums []int) int {
 	}
 	return res
 }
+
+// Leetcode 298. (medium)
+func longestConsecutive3(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	return recursiveLongestConsecutive3(root, root.Val, 0)
+}
+
+func recursiveLongestConsecutive3(root *TreeNode, target, cur int) int {
+	if root == nil {
+		return cur
+	}
+
+	if root.Val == target {
+		res1 := recursiveLongestConsecutive3(root.Left, root.Val+1, cur+1)
+		res2 := recursiveLongestConsecutive3(root.Right, root.Val+1, cur+1)
+		return max(res1, res2)
+	}
+	res1 := recursiveLongestConsecutive3(root.Left, root.Val+1, 1)
+	res2 := recursiveLongestConsecutive3(root.Right, root.Val+1, 1)
+	return max(cur, max(res1, res2))
+}
