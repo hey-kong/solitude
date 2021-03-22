@@ -29,6 +29,46 @@ func quickSortPartition(nums []int, left, right int) int {
 }
 
 func sortArray2(nums []int) []int {
+	stack := make([]int, len(nums))
+	top := 0
+	left := 0
+	right := len(nums) - 1
+	j := quickSortPartition(nums, left, right)
+	if j > left+1 {
+		stack[top] = left
+		top++
+		stack[top] = j - 1
+		top++
+	}
+	if j < right-1 {
+		stack[top] = j + 1
+		top++
+		stack[top] = right
+		top++
+	}
+	for top > 0 {
+		top--
+		right = stack[top]
+		top--
+		left = stack[top]
+		j := quickSortPartition(nums, left, right)
+		if j > left+1 {
+			stack[top] = left
+			top++
+			stack[top] = j - 1
+			top++
+		}
+		if j < right-1 {
+			stack[top] = j + 1
+			top++
+			stack[top] = right
+			top++
+		}
+	}
+	return nums
+}
+
+func sortArray3(nums []int) []int {
 	aux := make([]int, len(nums))
 	mergeSort(nums, aux, 0, len(nums)-1)
 	return nums
