@@ -16,6 +16,15 @@ func rob(nums []int) int {
 	return cur
 }
 
+// Leetcode 213. (medium)
+func rob2(nums []int) int {
+	n := len(nums)
+	if n == 1 {
+		return nums[0]
+	}
+	return max(rob2(nums[:n-1]), rob2(nums[1:]))
+}
+
 // Leetcode 337. (medium)
 func rob3(root *TreeNode) int {
 	res := recursiveRob3(root)
