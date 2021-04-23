@@ -23,3 +23,16 @@ func cuttingRope(n int) int {
 	}
 	return dp[2]
 }
+
+// Leetcode 14- II. (medium)
+func cuttingRope2(n int) int {
+	if n < 4 {
+		return n - 1
+	}
+	res := 1
+	for n > 4 {
+		res = res * 3 % 1000000007
+		n -= 3
+	}
+	return res * n % 1000000007
+}
