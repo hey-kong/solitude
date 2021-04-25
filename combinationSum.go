@@ -60,6 +60,32 @@ func recursiveCombinationSum2(candidates []int, target, cur, begin int, tmp []in
 	return res
 }
 
+// Leetcode 216. (medium)
+func combinationSum3(k int, n int) [][]int {
+	return recursiveCombinationSum3(k, n, 0, 1, []int{}, [][]int{})
+}
+
+func recursiveCombinationSum3(k int, n int, cur int, begin int, tmp []int, res [][]int) [][]int {
+	if cur == n && len(tmp) == k {
+		arr := make([]int, len(tmp))
+		copy(arr, tmp)
+		res = append(res, arr)
+		return res
+	}
+
+	for i := begin; i <= 9; i++ {
+		tmp = append(tmp, i)
+		cur += i
+		if len(tmp) > k || cur > n {
+			return res
+		}
+		res = recursiveCombinationSum3(k, n, cur, i+1, tmp, res)
+		tmp = tmp[:len(tmp)-1]
+		cur -= i
+	}
+	return res
+}
+
 // Leetcode 377. (medium)
 func combinationSum4(nums []int, target int) int {
 	dp := make([]int, target+1)
