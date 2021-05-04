@@ -7,10 +7,6 @@ func nextPermutation(nums []int) {
 	}
 
 	i := len(nums) - 2
-	if nums[i] < nums[i+1] {
-		nums[i], nums[i+1] = nums[i+1], nums[i]
-		return
-	}
 	for i >= 0 && nums[i] >= nums[i+1] {
 		i--
 	}
@@ -28,9 +24,9 @@ func nextPermutation(nums []int) {
 
 func bubbleSort(nums []int, start, end int) {
 	for i := start; i <= end-1; i++ {
-		for j := i + 1; j <= end; j++ {
-			if nums[i] > nums[j] {
-				nums[i], nums[j] = nums[j], nums[i]
+		for j := end; j >= i+1; j-- {
+			if nums[j-1] > nums[j] {
+				nums[j-1], nums[j] = nums[j], nums[j-1]
 			}
 		}
 	}
