@@ -34,3 +34,19 @@ func maxDistance(grid [][]int) int {
 	}
 	return res
 }
+
+// Leetcode 5751. (medium)
+func maxDistance2(nums1 []int, nums2 []int) int {
+	res := 0
+	i := 0
+	for j := range nums2 {
+		for i < len(nums1) && nums1[i] > nums2[j] {
+			i++
+		}
+		if i == len(nums1) {
+			break
+		}
+		res = max(res, j-i)
+	}
+	return res
+}
