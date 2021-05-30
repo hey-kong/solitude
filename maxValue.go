@@ -1,5 +1,7 @@
 package main
 
+import "strconv"
+
 // Leetcode m47. (medium)
 func maxValue(grid [][]int) int {
 	dp := make([][]int, len(grid)+1)
@@ -12,4 +14,21 @@ func maxValue(grid [][]int) int {
 		}
 	}
 	return dp[len(grid)][len(grid[0])]
+}
+
+// Leetcode 5773. (medium)
+func maxValue2(n string, x int) string {
+	y := byte('0' + x)
+	i := 0
+	if n[0] == '-' {
+		i = 1
+		for i < len(n) && n[i] <= y {
+			i++
+		}
+	} else {
+		for i < len(n) && n[i] >= y {
+			i++
+		}
+	}
+	return n[:i] + strconv.Itoa(x) + n[i:]
 }
