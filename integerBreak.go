@@ -17,10 +17,8 @@ func integerBreak(n int) int {
 
 	dp := make([]int, 3)
 	dp[0], dp[1], dp[2] = 4, 6, 9
-	for i := 6; i < n; i++ {
-		dp[0] = max(3*dp[0], 2*dp[1])
-		dp[0], dp[1] = dp[1], dp[0]
-		dp[1], dp[2] = dp[2], dp[1]
+	for i := 7; i <= n; i++ {
+		dp[0], dp[1], dp[2] = dp[1], dp[2], max(3*dp[0], 2*dp[1])
 	}
 	return dp[2]
 }
