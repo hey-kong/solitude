@@ -1,5 +1,7 @@
 package main
 
+import "math"
+
 // Leetcode 256. (medium)
 func minCost(costs [][]int) int {
 	if len(costs) == 0 {
@@ -17,4 +19,43 @@ func minCost(costs [][]int) int {
 		dp[i][2] = min(dp[i-1][0], dp[i-1][1]) + costs[i][2]
 	}
 	return min(dp[len(dp)-1][0], min(dp[len(dp)-1][1], dp[len(dp)-1][2]))
+}
+
+// Leetcode 265. (hard)
+func minCostII(costs [][]int) int {
+	if len(costs) == 0 {
+		return 0
+	}
+
+	m, n := len(costs), len(costs[0])
+	dp := make([][]int, m)
+	for i := range dp {
+		dp[i] = make([]int, n)
+	}
+	copy(dp[0], costs[0])
+	for i := 1; i < m; i++ {
+		for j := 0; j < n; j++ {
+			for k := 0; k < n; k++ {
+				if j == k {
+					continue
+				}
+				if dp[i][j] == 0 {
+					dp[i][j] = dp[i-1][k] + costs[i][j]
+					continue
+				}
+				dp[i][j] = min(dp[i][j], dp[i-1][k]+costs[i][j])
+			}
+		}
+	}
+	return getMin(dp[m-1])
+}
+
+func getMin(a []int) int {
+	res := math.MaxInt32
+	for _, v := range a {
+		if v < res {
+			res = v
+		}
+	}
+	return res
 }
